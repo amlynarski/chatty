@@ -7,48 +7,23 @@ import ApolloClient, { gql } from 'apollo-boost';
 import { ApolloProvider } from '@apollo/react-hooks';
 
 
-import BottomTabNavigator from './navigation/BottomTabNavigator';
-import HomeScreen from './screens/HomeScreen';
-import useLinking from './navigation/useLinking';
-import LoginScreen from './screens/LoginScreen';
-import { AuthContextProvider } from './globalContexts/AuthContextProvider';
-import { ApolloContextProvider } from './globalContexts/ApolloContextProvider';
+import BottomTabNavigator from './src/navigation/BottomTabNavigator';
+import HomeScreen from './src/screens/conversations/ConversationsScreen';
+import useLinking from './src/navigation/useLinking';
+import LoginScreen from './src/screens/login/LoginScreen';
+import { AuthContextProvider } from './src/globalContexts/AuthContextProvider';
+import { ApolloContextProvider } from './src/globalContexts/ApolloContextProvider';
+import { Navigation } from './src/navigation/Navigation';
 
 const Stack = createStackNavigator();
 
-
-
 export default function App() {
-  const containerRef = React.useRef();
-  const [initialNavigationState, setInitialNavigationState] = React.useState();
-  const { getInitialState } = useLinking(containerRef);
-
-  React.useEffect(() => {
-    async function loadResourcesAndDataAsync() {
-      try {
-
-        // Load our initial navigation state
-        setInitialNavigationState(await getInitialState());
-      } catch (e) {
-        // We might want to provide this error information to an error reporting service
-        console.warn(e);
-      } finally {
-      }
-    }
-
-    loadResourcesAndDataAsync();
-  }, []);
 
   return (
     <ApolloContextProvider>
       <AuthContextProvider>
         <PaperProvider>
-          <LoginScreen />
-          {/*<NavigationContainer ref={containerRef} initialState={initialNavigationState}>*/}
-          {/*  <Stack.Navigator>*/}
-          {/*    <Stack.Screen name="Root" component={BottomTabNavigator} />*/}
-          {/*  </Stack.Navigator>*/}
-          {/*</NavigationContainer>*/}
+          <Navigation/>
         </PaperProvider>
       </AuthContextProvider>
     </ApolloContextProvider>

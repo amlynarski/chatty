@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { View, StyleSheet, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { Button, Colors, IconButton, TextInput, Avatar } from 'react-native-paper';
-import { AuthContext } from '../globalContexts/AuthContext';
+import { AuthContext } from '../../globalContexts/AuthContext';
 
 export default function LoginScreen() {
   const [username, setUsername] = useState<string>("");

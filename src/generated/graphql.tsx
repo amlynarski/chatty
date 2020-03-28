@@ -109,3 +109,29 @@ export type SigninMutation = (
     & Pick<Token, 'jwt'>
   ) }
 );
+
+export type MeQueryVariables = {};
+
+
+export type MeQuery = (
+  { __typename?: 'Query' }
+  & { me: (
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'username'>
+  ) }
+);
+
+export type ConversationsQueryVariables = {};
+
+
+export type ConversationsQuery = (
+  { __typename?: 'Query' }
+  & { conversations: Array<(
+    { __typename?: 'Conversation' }
+    & Pick<Conversation, 'id'>
+    & { users: Array<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'username'>
+    )> }
+  )> }
+);

@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import * as WebBrowser from 'expo-web-browser';
 import { RectButton, ScrollView } from 'react-native-gesture-handler';
 import { useContext, useEffect } from 'react';
-import { AuthContext, AuthContextType } from '../globalContexts/AuthContext';
+import { AuthContext, AuthContextType } from '../../globalContexts/AuthContext';
 import { Button } from 'react-native-paper';
 
 export default function ProfileScreen() {

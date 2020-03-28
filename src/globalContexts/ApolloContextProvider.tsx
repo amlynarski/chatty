@@ -5,7 +5,7 @@ import * as SecureStore from 'expo-secure-store';
 
 export const ApolloContextProvider = ({children}: PropsWithChildren<{}>) => {
   const client = new ApolloClient({
-    uri: 'http://192.168.100.133:4000',
+    uri: 'http://192.168.0.4:4000',
     request: async (operation) => { // todo probably move token to not await in request
       const token = await SecureStore.getItemAsync('token');
       if (token) {

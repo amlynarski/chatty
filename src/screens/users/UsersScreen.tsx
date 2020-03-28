@@ -3,14 +3,21 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as WebBrowser from 'expo-web-browser';
 import { RectButton, ScrollView } from 'react-native-gesture-handler';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
+import { AuthContext, AuthContextType } from '../../globalContexts/AuthContext';
 
-export default function LinksScreen() {
+export default function UsersScreen() {
+  const {me} = useContext<AuthContextType>(AuthContext);
+
   useEffect(() => {
     console.log('Link screen mounted');
 
     return () => console.log('Unmounted linkscreen');
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    console.log('to ja', me);
+  }, []);
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>

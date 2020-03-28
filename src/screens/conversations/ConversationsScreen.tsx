@@ -1,40 +1,46 @@
 import { Text, View } from 'react-native';
-import React, { useEffect } from 'react';
-import { gql } from 'apollo-boost';
+import React, { useContext, useEffect } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 
-const USERS = gql`
-  {
-    me {
-      id
-      username
-    }
-  }
-`;
+import { CONVERSATIONS } from './conversations.schema';
+import { Conversation, ConversationsQuery, ConversationsQueryVariables } from '../../generated/graphql';
+import { List } from 'react-native-paper';
+import { AuthContext, AuthContextType } from '../../globalContexts/AuthContext';
 
-export default function HomeScreen() {
-  const { loading, error, data } = useQuery(USERS);
+export default function ConversationsScreen() {
+  const { me } = useContext<AuthContextType>(AuthContext);
+  const { loading, error, data } = useQuery<ConversationsQuery, ConversationsQueryVariables>(CONVERSATIONS);
 
-  useEffect(() => {
-    console.log('mount')
-    return () => console.log('unmount');
-  }, [])
-
-  function users() {
-    if (data) {
-      // return data.users.map(user => <Text key={user.id}>{user.username}</Text>)
-      return <Text>{data.me.username}</Text>
-    } else {
-      return null;
-    }
+  if (!me) {
+    return null;
   }
 
+  function conversationUserNames(conversation: Conversation): String {
+    const usersWithoutMe = conversation.users.filter(user => user.id !== me.id);
+    return usersWithoutMe.map(user => user.username).join(', ');
+  }
+
+  function openConversation(conversationId: string) {
+    console.log('conversation id', conversationId);
+  }
+
+  function conversationItem(conversation: Conversation) {
+    return (
+      <View>
+        <List.Item
+          key={conversation.id}
+          onPress={() => openConversation(conversation.id)}
+          title={conversationUserNames(conversation)}
+        />
+      </View>
+    )
+  }
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
-      {}
-      {users()}
+    <View>
+      <List.Section>
+        {data && data.conversations.map(conversation => conversationItem(conversation as Conversation))}
+      </List.Section>
     </View>
   );
 }
