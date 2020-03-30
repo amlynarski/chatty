@@ -1,0 +1,321 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ConversationsScreen renders correctly 1`] = `
+<View>
+  <View
+    style={
+      Array [
+        Object {
+          "marginVertical": 8,
+        },
+        undefined,
+      ]
+    }
+    theme={
+      Object {
+        "animation": Object {
+          "scale": 1,
+        },
+        "colors": Object {
+          "accent": "#03dac4",
+          "backdrop": "rgba(0, 0, 0, 0.5)",
+          "background": "#f6f6f6",
+          "disabled": "rgba(0, 0, 0, 0.26)",
+          "error": "#B00020",
+          "notification": "#f50057",
+          "onBackground": "#000000",
+          "onSurface": "#000000",
+          "placeholder": "rgba(0, 0, 0, 0.54)",
+          "primary": "#6200ee",
+          "surface": "#ffffff",
+          "text": "#000000",
+        },
+        "dark": false,
+        "fonts": Object {
+          "light": Object {
+            "fontFamily": "System",
+            "fontWeight": "300",
+          },
+          "medium": Object {
+            "fontFamily": "System",
+            "fontWeight": "500",
+          },
+          "regular": Object {
+            "fontFamily": "System",
+            "fontWeight": "400",
+          },
+          "thin": Object {
+            "fontFamily": "System",
+            "fontWeight": "100",
+          },
+        },
+        "roundness": 4,
+      }
+    }
+  >
+    <View
+      accessible={true}
+      focusable={true}
+      isTVSelectable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Array [
+          false,
+          Array [
+            Object {
+              "padding": 8,
+            },
+            undefined,
+          ],
+        ]
+      }
+    >
+      <View
+        style={
+          Object {
+            "flexDirection": "row",
+          }
+        }
+      >
+        <View
+          pointerEvents="box-none"
+          style={
+            Array [
+              Object {
+                "alignItems": "center",
+                "height": 40,
+                "justifyContent": "center",
+                "margin": 8,
+                "width": 40,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text />
+        </View>
+        <View
+          style={
+            Array [
+              Object {
+                "marginVertical": 6,
+                "paddingLeft": 8,
+              },
+              Object {
+                "flex": 1,
+                "justifyContent": "center",
+              },
+            ]
+          }
+        >
+          <Text
+            numberOfLines={1}
+            style={
+              Array [
+                Object {
+                  "color": "#000000",
+                  "fontFamily": "System",
+                  "fontWeight": "400",
+                  "textAlign": "left",
+                },
+                Array [
+                  Object {
+                    "fontSize": 16,
+                  },
+                  Object {
+                    "color": "rgba(0, 0, 0, 0.87)",
+                  },
+                  undefined,
+                ],
+              ]
+            }
+          >
+            adam
+          </Text>
+          <Text
+            numberOfLines={2}
+            style={
+              Array [
+                Object {
+                  "color": "#000000",
+                  "fontFamily": "System",
+                  "fontWeight": "400",
+                  "textAlign": "left",
+                },
+                Array [
+                  Object {
+                    "fontSize": 14,
+                  },
+                  Object {
+                    "color": "rgba(0, 0, 0, 0.54)",
+                  },
+                  Object {
+                    "fontSize": 10,
+                  },
+                ],
+              ]
+            }
+          >
+            29.3.2020 23:28
+          </Text>
+        </View>
+      </View>
+    </View>
+    <View
+      accessible={true}
+      focusable={true}
+      isTVSelectable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Array [
+          false,
+          Array [
+            Object {
+              "padding": 8,
+            },
+            undefined,
+          ],
+        ]
+      }
+    >
+      <View
+        style={
+          Object {
+            "flexDirection": "row",
+          }
+        }
+      >
+        <View
+          pointerEvents="box-none"
+          style={
+            Array [
+              Object {
+                "alignItems": "center",
+                "height": 40,
+                "justifyContent": "center",
+                "margin": 8,
+                "width": 40,
+              },
+              undefined,
+            ]
+          }
+        >
+          <Text />
+        </View>
+        <View
+          style={
+            Object {
+              "backgroundColor": "#f00",
+              "borderRadius": 20,
+              "left": 30,
+              "opacity": 0.7,
+              "paddingBottom": 1,
+              "paddingLeft": 5,
+              "paddingRight": 5,
+              "paddingTop": 1,
+              "position": "absolute",
+              "top": 10,
+            }
+          }
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "#000000",
+                  "fontFamily": "System",
+                  "fontWeight": "400",
+                  "textAlign": "left",
+                },
+                Object {
+                  "color": "#fff",
+                  "fontSize": 8,
+                },
+              ]
+            }
+          >
+            1
+          </Text>
+        </View>
+        <View
+          style={
+            Array [
+              Object {
+                "marginVertical": 6,
+                "paddingLeft": 8,
+              },
+              Object {
+                "flex": 1,
+                "justifyContent": "center",
+              },
+            ]
+          }
+        >
+          <Text
+            numberOfLines={1}
+            style={
+              Array [
+                Object {
+                  "color": "#000000",
+                  "fontFamily": "System",
+                  "fontWeight": "400",
+                  "textAlign": "left",
+                },
+                Array [
+                  Object {
+                    "fontSize": 16,
+                  },
+                  Object {
+                    "color": "rgba(0, 0, 0, 0.87)",
+                  },
+                  undefined,
+                ],
+              ]
+            }
+          >
+            adam
+          </Text>
+          <Text
+            numberOfLines={2}
+            style={
+              Array [
+                Object {
+                  "color": "#000000",
+                  "fontFamily": "System",
+                  "fontWeight": "400",
+                  "textAlign": "left",
+                },
+                Array [
+                  Object {
+                    "fontSize": 14,
+                  },
+                  Object {
+                    "color": "rgba(0, 0, 0, 0.54)",
+                  },
+                  Object {
+                    "fontSize": 10,
+                  },
+                ],
+              ]
+            }
+          >
+            25.3.2020 10:51
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;

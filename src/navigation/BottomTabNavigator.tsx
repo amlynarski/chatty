@@ -1,45 +1,38 @@
-import * as React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import TabBarIcon from '../components/TabBarIcon';
-import UsersScreen from '../screens/users/UsersScreen';
-import { BottomNavigation, Text } from 'react-native-paper';
-import { useEffect, useState } from 'react';
-import ProfileScreen from '../screens/profile/ProfileScreen';
-import ConversationsScreen from '../screens/conversations/ConversationsScreen';
+import React from 'react';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-const BottomTab = createBottomTabNavigator(); // todo check https://callstack.github.io/react-native-paper/bottom-navigation.html
-const INITIAL_ROUTE_NAME = 'Home';
+import ConversationsStackNavigator from '../screens/conversations/ConversationsStackNavigator';
+import UsersStackNavigation from '../screens/users/UserStackNavigation';
+import ProfileStackNavigator from '../screens/profile/ProfileStackNavigator';
+import { ConversationsContextProvider } from '../globalContexts/Conversations/ConversationsContextProvider';
+import { NavigationTabBarIcon } from './NavigationTabBarIcon';
 
-const routes = [
-  { key: 'conversations', title: 'Conversations', icon: 'camera' },
-  { key: 'users', title: 'App friends', icon: 'album' },
-  { key: 'profile', title: 'Profile', icon: 'history' },
-];
 
-export default function BottomTabNavigator({ navigation, route }) {
-  const [index, setIndex] = useState<number>(0);
-
-  useEffect(() => {
-    navigation.setOptions({headerTitle: routes[index].title});
-  }, [index]);
-
-  const handleIndexChange = index => setIndex(index);
-
-  const renderScene = BottomNavigation.SceneMap({
-    conversations: ConversationsScreen,
-    users: UsersScreen,
-    profile: ProfileScreen,
-  });
+export default function BottomTabNavigator() {
+  const Tab = createBottomTabNavigator();
 
   return (
-    <BottomNavigation
-      navigationState={{
-        index,
-        routes
-      }}
-      onIndexChange={handleIndexChange}
-      renderScene={renderScene}
-    />
+    <ConversationsContextProvider>
+      <Tab.Navigator>
+        <Tab.Screen name="Messages" component={ConversationsStackNavigator} options={{
+          tabBarLabel: 'Messages',
+          tabBarIcon: ({ color, size }) => <NavigationTabBarIcon color={color} size={size} />,
+        }}
+        />
+        <Tab.Screen name="Users" component={UsersStackNavigation} options={{
+          tabBarLabel: 'Users',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="account-group" color={color} size={size} />
+          )}}
+        />
+        <Tab.Screen name="Profile" component={ProfileStackNavigator} options={{
+          tabBarLabel: 'Profile',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="account" color={color} size={size} />
+          )}}
+        />
+      </Tab.Navigator>
+    </ConversationsContextProvider>
   );
-
 }

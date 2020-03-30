@@ -1,87 +1,82 @@
 import * as React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import * as WebBrowser from 'expo-web-browser';
-import { RectButton, ScrollView } from 'react-native-gesture-handler';
-import { useContext, useEffect } from 'react';
-import { AuthContext, AuthContextType } from '../../globalContexts/AuthContext';
+import { View } from 'react-native';
+import { useContext, useEffect, useState } from 'react';
+import { useQuery } from '@apollo/react-hooks';
+import { ActivityIndicator, List } from 'react-native-paper';
 
-export default function UsersScreen() {
+import { AuthContext, AuthContextType } from '../../globalContexts/Auth/AuthContext';
+import {
+  User,
+  UsersQuery,
+  UsersQueryVariables
+} from '../../generated/graphql';
+import { USERS } from './users.schema';
+import { ConversationsContext, ConversationsContextType } from '../../globalContexts/Conversations/ConversationsContext';
+import { NetworkStatusContext, NetworkStatusContextType } from '../../globalContexts/NetworkStatus/NetworkStatusContext';
+import { ErrorMessagesContext, ErrorMessagesContextType } from '../../globalContexts/ErrorMessages/ErrorMessagesContext';
+
+export default function UsersScreen({navigation}) {
   const {me} = useContext<AuthContextType>(AuthContext);
+  const {connected} = useContext<NetworkStatusContextType>(NetworkStatusContext);
+  const {conversations, createConversation} = useContext<ConversationsContextType>(ConversationsContext);
+  const {showError} = useContext<ErrorMessagesContextType>(ErrorMessagesContext);
+
+  const [refetchOnConnection, setRefetchOnConnection] = useState<boolean>(false);
+
+  const { loading, error, data: usersData, refetch, networkStatus } = useQuery<UsersQuery, UsersQueryVariables>(USERS);
 
   useEffect(() => {
-    console.log('Link screen mounted');
-
-    return () => console.log('Unmounted linkscreen');
-  }, []);
+    if (error) {
+      showError(error);
+    }
+  }, [error]);
 
   useEffect(() => {
-    console.log('to ja', me);
-  }, []);
+    if (!connected) {
+      setRefetchOnConnection(true);
+    }
+  },[connected]);
+
+  useEffect(() => {
+    if (refetchOnConnection && connected) {
+      refetch();
+      setRefetchOnConnection(false);
+    }
+  }, [refetchOnConnection, refetch, connected]);
+
+  async function openConversation(userId: string) {
+    const convUserIds = [userId, me.id];
+    const existingConversation = conversations.find(
+      conversation => conversation.users.every(user => convUserIds.includes((user.id)))
+    );
+
+    if (existingConversation) {
+      navigation.navigate("Message", {conversationId: existingConversation.id});
+    } else {
+      const newConversation = await createConversation(convUserIds);
+      navigation.navigate("Message", {conversationId: newConversation.id});
+    }
+  }
+
+  function userItem(user: User) {
+    return (
+      <List.Item
+        key={user.id}
+        onPress={() => openConversation(user.id)}
+        title={user.username}
+        left={() => <List.Icon icon="emoticon-wink-outline" />}
+      />
+    )
+  }
+
+  if (networkStatus === 4 || loading) return <ActivityIndicator size="large"/>;
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-      <OptionButton
-        icon="md-school"
-        label="Read the Expo documentation"
-        onPress={() => WebBrowser.openBrowserAsync('https://docs.expo.io')}
-        isLastOption={false}
-      />
-
-      <OptionButton
-        icon="md-compass"
-        label="Read the React Navigation documentation"
-        onPress={() => WebBrowser.openBrowserAsync('https://reactnavigation.org')}
-        isLastOption={false}
-      />
-
-      <OptionButton
-        icon="ios-chatboxes"
-        label="Ask a question on the forums"
-        onPress={() => WebBrowser.openBrowserAsync('https://forums.expo.io')}
-        isLastOption
-      />
-    </ScrollView>
+    <View>
+      <List.Section>
+        {usersData && usersData.users.map(user => userItem(user as User))}
+      </List.Section>
+    </View>
   );
 }
 
-function OptionButton({ icon, label, onPress, isLastOption }) {
-  return (
-    <RectButton style={[styles.option, isLastOption && styles.lastOption]} onPress={onPress}>
-      <View style={{ flexDirection: 'row' }}>
-        <View style={styles.optionIconContainer}>
-          <Ionicons name={icon} size={22} color="rgba(0,0,0,0.35)" />
-        </View>
-      </View>
-    </RectButton>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fafafa',
-  },
-  contentContainer: {
-    paddingTop: 15,
-  },
-  optionIconContainer: {
-    marginRight: 12,
-  },
-  option: {
-    backgroundColor: '#fdfdfd',
-    paddingHorizontal: 15,
-    paddingVertical: 15,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderBottomWidth: 0,
-    borderColor: '#ededed',
-  },
-  lastOption: {
-    borderBottomWidth: StyleSheet.hairlineWidth,
-  },
-  optionText: {
-    fontSize: 15,
-    alignSelf: 'flex-start',
-    marginTop: 1,
-  },
-});

@@ -1,11 +1,11 @@
-import React, { PropsWithChildren, useContext, useEffect, useState } from 'react';
+import React, { PropsWithChildren, useEffect, useState } from 'react';
 import * as SecureStore from 'expo-secure-store';
-import { useMutation, useApolloClient, useQuery, useLazyQuery } from '@apollo/react-hooks';
+import { useMutation, useApolloClient } from '@apollo/react-hooks';
+import { deleteItemAsync, getItemAsync } from 'expo-secure-store';
 
 import { AuthContext } from './AuthContext';
 import { ME, SIGNIN } from './schemas/auth.schema';
-import { MeQuery, MeQueryVariables, SigninMutation, SigninMutationVariables, User } from '../generated/graphql';
-import { deleteItemAsync, getItemAsync } from 'expo-secure-store';
+import { MeQuery, MeQueryVariables, SigninMutation, SigninMutationVariables, User } from '../../generated/graphql';
 
 export const AuthContextProvider = (props: PropsWithChildren<{}>) => {
   const [token, setToken] = useState<string | null>(null);
@@ -22,6 +22,10 @@ export const AuthContextProvider = (props: PropsWithChildren<{}>) => {
   }
 
   useEffect(() => {
+    apolloClient.cache.reset();
+  }, []);
+
+  useEffect(() => {
     async function checkIfTokenExist() {
       const jwt = await getItemAsync('token');
       if (jwt) {
@@ -36,17 +40,19 @@ export const AuthContextProvider = (props: PropsWithChildren<{}>) => {
   }, []);
 
   useEffect(() => {
-    if (!token) {
-      console.log('reseting cache');
-      apolloClient.cache.reset();
+    async function clearData() {
+      await apolloClient.cache.reset();
       setMe(null);
+    }
+
+    if (!token) {
+      clearData()
     }
   }, [token]);
 
   const [signin] = useMutation<SigninMutation, SigninMutationVariables>(SIGNIN);
 
   async function login(username: string, password: string): Promise<string> {
-    // todo refactor
     const response = await signin( {variables: {username, password}});
     await SecureStore.setItemAsync('token', response.data.signin.jwt);
     setToken(response.data.signin.jwt);
@@ -58,7 +64,6 @@ export const AuthContextProvider = (props: PropsWithChildren<{}>) => {
   async function logout(): Promise<void> {
     await deleteItemAsync('token');
     setToken(null);
-    setMe(null);
   }
 
   return(

@@ -2,11 +2,9 @@ import React, { useContext } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-
 import LoginScreen from '../screens/login/LoginScreen';
 import BottomTabNavigator from './BottomTabNavigator';
-import useLinking from './useLinking';
-import { AuthContext, AuthContextType } from '../globalContexts/AuthContext';
+import { AuthContext, AuthContextType } from '../globalContexts/Auth/AuthContext';
 import { LoadingScreen } from '../screens/loading/LoadingScreen';
 
 const Stack = createStackNavigator();
@@ -18,7 +16,7 @@ export const Navigation = () => {
 
   return(
     <NavigationContainer ref={containerRef}>
-      <Stack.Navigator>
+      <Stack.Navigator headerMode="none">
         {
           loading
             ? <Stack.Screen name="Loading" component={LoadingScreen} />
@@ -34,10 +32,9 @@ export const Navigation = () => {
                     : <Stack.Screen name="Login" component={LoginScreen} />
                 }
               </>)
-
         }
 
       </Stack.Navigator>
     </NavigationContainer>
   )
-}
+};

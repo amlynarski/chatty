@@ -1,5 +1,5 @@
 import React from 'react';
-import { User } from '../generated/graphql';
+import { User } from '../../generated/graphql';
 
 export interface AuthContextType {
   token: string | null,

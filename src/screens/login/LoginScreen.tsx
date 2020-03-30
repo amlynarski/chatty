@@ -1,19 +1,28 @@
 import React, { useContext, useState } from 'react';
 import { View, StyleSheet, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
-import { Button, Colors, IconButton, TextInput, Avatar } from 'react-native-paper';
-import { AuthContext } from '../../globalContexts/AuthContext';
+import { Button, TextInput, Avatar } from 'react-native-paper';
+
+import { AuthContext } from '../../globalContexts/Auth/AuthContext';
+import { ErrorMessagesContext, ErrorMessagesContextType } from '../../globalContexts/ErrorMessages/ErrorMessagesContext';
 
 export default function LoginScreen() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [disabled, setDisabled] = useState<boolean>(false);
 
+  const {showError} = useContext<ErrorMessagesContextType>(ErrorMessagesContext);
+
   const {login} = useContext(AuthContext);
 
   async function handleLogin() {
     setDisabled(true);
-    const t = await login(username, password);
-    setDisabled(false);
+    try {
+      await login(username, password);
+    } catch(e) {
+      showError(e);
+    } finally {
+      setDisabled(false);
+    }
   }
 
   return(
