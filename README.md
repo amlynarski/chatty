@@ -19,7 +19,10 @@ Password is not checked on backend side, so it is needed to provide just usernam
 
 # Using schemas + types
 
-Types are generated based on server and client graphql `schemas`. To develop project please update `codegen.yml` with correct server address -> `schema: "http://localhost:4000"`
+`yarn generate`
+
+Types are generated based on server and client graphql `schemas`. 
+To develop project please update `codegen.yml` with correct server address -> `schema: "http://localhost:4000"` . Server must be available to generate schemas.
 
 # Testing
 
@@ -33,6 +36,6 @@ According to time preasure I have included few tests, but they presents almost a
 - testing with rendering component, which use `useContext`; finding elements; interaction like `onPress()`
 
 
-Final developer note:
+# Final developer note:
 - tested on real Android device and iOS simulator 
 - **have a nice time!** :) 
