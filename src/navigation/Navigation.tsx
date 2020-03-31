@@ -14,26 +14,22 @@ export const Navigation = () => {
 
   const {token, loading, me} = useContext<AuthContextType>(AuthContext);
 
+  const renderContent = () => {
+    if (loading) {
+      return <Stack.Screen name="Loading" component={LoadingScreen} />
+    }
+
+    if (token && me) {
+      return <Stack.Screen name="Root" component={BottomTabNavigator} />
+    }
+
+    return <Stack.Screen name="Login" component={LoginScreen} />
+  }
+
   return(
     <NavigationContainer ref={containerRef}>
       <Stack.Navigator headerMode="none">
-        {
-          loading
-            ? <Stack.Screen name="Loading" component={LoadingScreen} />
-            : (
-              <>
-                {
-                  token && me
-                    ? (
-                      <>
-                        <Stack.Screen name="Root" component={BottomTabNavigator} />
-                      </>
-                    )
-                    : <Stack.Screen name="Login" component={LoginScreen} />
-                }
-              </>)
-        }
-
+        { renderContent() }
       </Stack.Navigator>
     </NavigationContainer>
   )
